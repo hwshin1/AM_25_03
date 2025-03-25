@@ -71,15 +71,7 @@ public class Main {
             } else if (cmd.startsWith("article delete")) {
                 int id = Integer.parseInt(cmd.split(" ")[2]);
 
-                Article foundArticle = null;
-
-                for (int i = articles.size() - 1; i >= 0; i--) {
-                    Article article = articles.get(i);
-                    if (article.getId() == id) {
-                        foundArticle = article;
-                        break;
-                    }
-                }
+                Article foundArticle = getArticle(id);
 
                 if (foundArticle == null) {
                     System.out.println("해당 게시글이 없습니다.");
@@ -90,14 +82,8 @@ public class Main {
                 System.out.println(id + "번이 삭제되었습니다.");
             } else if (cmd.startsWith("article detail")) {
                 int id = Integer.parseInt(cmd.split(" ")[2]);
-                Article foundArticle = null;
 
-                for (Article article : articles) {
-                    if (article.getId() == id) {
-                        foundArticle = article;
-                        break;
-                    }
-                }
+                Article foundArticle = getArticle(id);
 
                 if (foundArticle == null) {
                     System.out.println("해당 게시글이 없습니다.");
@@ -112,14 +98,8 @@ public class Main {
                 System.out.println("내용 : " + foundArticle.getContent());
             } else if (cmd.startsWith("article modify")) {
                 int id = Integer.parseInt(cmd.split(" ")[2]);
-                Article foundArticle = null;
 
-                for (Article article : articles) {
-                    if (article.getId() == id) {
-                        foundArticle = article;
-                        break;
-                    }
-                }
+                Article foundArticle = getArticle(id);
 
                 if (foundArticle == null) {
                     System.out.println("해당 게시글이 없습니다.");
@@ -153,6 +133,18 @@ public class Main {
         articles.add(new Article(1, "2025-03-24 12:00:12", "2025-03-24 12:00:12", "asdf", "asdf"));
         articles.add(new Article(2, Util.getNow(), Util.getNow(), "qewr", "qwer"));
         articles.add(new Article(3, Util.getNow(), Util.getNow(), "zxcv", "zxcv"));
+    }
+
+    private static Article getArticle(int id) {
+        for (int i = 0; i < articles.size(); i++) {
+            Article article = articles.get(i);
+
+            if (article.getId() == id) {
+                return article;
+            }
+        }
+
+        return null;
     }
 }
 
@@ -211,3 +203,4 @@ class Article {
         this.content = content;
     }
 }
+
