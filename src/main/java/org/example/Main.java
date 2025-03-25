@@ -1,5 +1,7 @@
 package org.example;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
@@ -11,6 +13,9 @@ public class Main {
 
         int lastId = 0;
         List<Article> articles = new ArrayList<>();
+
+        LocalDateTime now = LocalDateTime.now();
+        String formatNow = now.format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
 
         while (true) {
             System.out.print("명령어 ) ");
@@ -91,6 +96,7 @@ public class Main {
 
                 System.out.println("== 게시글 상세보기 ==");
                 System.out.println("번호 : " + foundArticle.getId());
+                System.out.println("날짜 : " + formatNow);
                 System.out.println("제목 : " + foundArticle.getTitle());
                 System.out.println("내용 : " + foundArticle.getContent());
             } else if (cmd.startsWith("article modify")) {
