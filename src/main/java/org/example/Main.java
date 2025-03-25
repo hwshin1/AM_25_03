@@ -5,12 +5,15 @@ import java.util.List;
 import java.util.Scanner;
 
 public class Main {
+    static List<Article> articles = new ArrayList<>();
+
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
         System.out.println("== 프로그램 실행 ==");
 
-        int lastId = 0;
-        List<Article> articles = new ArrayList<>();
+        int lastId = 3;
+
+        makeTestDate();
 
         while (true) {
             System.out.print("명령어 ) ");
@@ -142,6 +145,14 @@ public class Main {
         }
 
         sc.close();
+    }
+
+    private static void makeTestDate() {
+        System.out.println("== 테스트 데이터 생성 ==");
+
+        articles.add(new Article(1, "2025-03-24 12:00:12", "2025-03-24 12:00:12", "asdf", "asdf"));
+        articles.add(new Article(2, Util.getNow(), Util.getNow(), "qewr", "qwer"));
+        articles.add(new Article(3, Util.getNow(), Util.getNow(), "zxcv", "zxcv"));
     }
 }
 
