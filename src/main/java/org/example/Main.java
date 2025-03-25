@@ -1,7 +1,5 @@
 package org.example;
 
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
@@ -13,9 +11,6 @@ public class Main {
 
         int lastId = 0;
         List<Article> articles = new ArrayList<>();
-
-        LocalDateTime now = LocalDateTime.now();
-        String formatNow = now.format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
 
         while (true) {
             System.out.print("명령어 ) ");
@@ -30,13 +25,12 @@ public class Main {
 
             if (cmd.equals("article write")) {
                 int id = lastId + 1;
-
                 System.out.print("제목 : ");
                 String title = sc.nextLine().trim();
                 System.out.print("내용 : ");
                 String content = sc.nextLine().trim();
 
-                Article article = new Article(id, title, content);
+                Article article = new Article(id, Util.getNow(), title, content);
                 articles.add(article);
 
                 System.out.println(id + "번 글이 생성되었습니다.");
@@ -96,7 +90,7 @@ public class Main {
 
                 System.out.println("== 게시글 상세보기 ==");
                 System.out.println("번호 : " + foundArticle.getId());
-                System.out.println("날짜 : " + formatNow);
+                System.out.println("날짜 : " + foundArticle.getRegDate());
                 System.out.println("제목 : " + foundArticle.getTitle());
                 System.out.println("내용 : " + foundArticle.getContent());
             } else if (cmd.startsWith("article modify")) {
@@ -123,7 +117,7 @@ public class Main {
                 System.out.print("새 내용 : ");
                 String newContent = sc.nextLine().trim();
 
-                foundArticle.setTile(newTitle);
+                foundArticle.setTitle(newTitle);
                 foundArticle.setContent(newContent);
 
             } else {
@@ -137,11 +131,13 @@ public class Main {
 
 class Article {
     int id;
+    String regDate;
     String title;
     String content;
 
-    public Article(int id, String title, String content) {
+    public Article(int id, String regDate, String title, String content) {
         this.id = id;
+        this.regDate = regDate;
         this.title = title;
         this.content = content;
     }
@@ -158,11 +154,19 @@ class Article {
         return content;
     }
 
+    public String getRegDate() {
+        return regDate;
+    }
+
+    public void setRegDate(String regDate) {
+        this.regDate = regDate;
+    }
+
     public void setId(int id) {
         this.id = id;
     }
 
-    public void setTile(String title) {
+    public void setTitle(String title) {
         this.title = title;
     }
 
