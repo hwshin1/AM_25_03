@@ -1,8 +1,6 @@
 package org.example.dto;
 
-public class Member {
-    int id;
-    String regDate;
+public class Member extends Dto {
     String loginId;
     String loginPw;
     String name;

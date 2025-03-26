@@ -1,5 +1,6 @@
-package org.example;
+package org.example.controller;
 
+import org.example.Util;
 import org.example.dto.Article;
 
 import java.util.ArrayList;
