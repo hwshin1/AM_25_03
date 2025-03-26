@@ -40,31 +40,39 @@ public class Main {
 
                 System.out.println(id + "번 글이 생성되었습니다.");
                 lastId++;
-            } else if (cmd.equals("article list")) {
+            } else if (cmd.startsWith("article list")) {
+                System.out.println("==게시글 목록==");
                 if (articles.size() == 0) {
-                    System.out.println("등록된 게시글이 없습니다.");
+                    System.out.println("아무것도 없어");
                     continue;
                 }
 
-                System.out.println("=".repeat(30));
-                System.out.println("   번호   /   날짜   /   제목   /   내용   ");
+                String searchKeyword = cmd.substring("article list".length()).trim();
 
-                for (int i = articles.size() - 1; i >= 0; i--) {
-                    Article article = articles.get(i);
+                List<Article> forPrintArticles = articles;
 
-                    // 날짜가 오늘이면 시간이 나오고 날짜가 지난 날이면 날짜가 나온다.
+                if (searchKeyword.length() > 0) {
+                    System.out.println("검색어 : " + searchKeyword);
+                    forPrintArticles = new ArrayList<>();
+
+                    for (Article article : articles) {
+                        if (article.getTitle().contains(searchKeyword)) {
+                            forPrintArticles.add(article);
+                        }
+                    }
+                    if (forPrintArticles.size() == 0) {
+                        System.out.println("검색 결과 없음");
+                        continue;
+                    }
+                }
+
+                System.out.println("   번호    /     날짜       /   제목     /    내용   ");
+                for (int i = forPrintArticles.size() - 1; i >= 0; i--) {
+                    Article article = forPrintArticles.get(i);
                     if (Util.getNow().split(" ")[0].equals(article.getRegDate().split(" ")[0])) {
-                        System.out.printf("   %d   /   %s   /   %s   /   %s   \n",
-                                article.getId(),
-                                article.getRegDate().split(" ")[1],
-                                article.getTitle(),
-                                article.getContent());
+                        System.out.printf("  %d   /    %s        /    %s     /    %s   \n", article.getId(), article.getRegDate().split(" ")[1], article.getTitle(), article.getContent());
                     } else {
-                        System.out.printf("   %d   /   %s   /   %s   /   %s   \n",
-                                article.getId(),
-                                article.getRegDate().split(" ")[0],
-                                article.getTitle(),
-                                article.getContent());
+                        System.out.printf("  %d   /    %s        /    %s     /    %s   \n", article.getId(), article.getRegDate().split(" ")[0], article.getTitle(), article.getContent());
                     }
                 }
                 System.out.println("=".repeat(30));
@@ -203,4 +211,3 @@ class Article {
         this.content = content;
     }
 }
-
