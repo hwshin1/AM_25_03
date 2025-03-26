@@ -6,12 +6,14 @@ import java.util.Scanner;
 
 public class Main {
     static List<Article> articles = new ArrayList<>();
+    static List<Member> members = new ArrayList<>();
 
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
         System.out.println("== 프로그램 실행 ==");
 
         int lastId = 3;
+        int memberId = 3;
 
         makeTestDate();
 
@@ -26,7 +28,44 @@ public class Main {
                 System.out.println("명령어가 입력되지 않았습니다.");
             }
 
-            if (cmd.equals("article write")) {
+            if (cmd.equals("member join")) {
+                System.out.println("== 회원가입 ==");
+                int id = memberId + 1;
+                String regDate = Util.getNow();
+                String loginId = null;
+                while (true) {
+                    System.out.print("로그인 아이디 : ");
+                    loginId = sc.nextLine().trim();
+                    if (isJoinableLoginId(loginId) == false) {
+                        System.out.println("다른 ID를 입력하세요.");
+                        continue;
+                    }
+                    break;
+                }
+                String password = null;
+                while (true) {
+                    System.out.print("비밀번호 : ");
+                    password = sc.nextLine().trim();
+                    System.out.print("비밀번호 확인: ");
+                    String passwordConfirm = sc.nextLine().trim();
+
+                    if (password.equals(passwordConfirm) == false) {
+                        System.out.println("비밀번호가 틀립니다.");
+                        continue;
+                    }
+                    break;
+                }
+
+                System.out.print("이름 : ");
+                String name = sc.nextLine().trim();
+
+                Member member = new Member(id, regDate, loginId, password, name);
+                members.add(member);
+
+                System.out.println("회원이 가입되었습니다");
+                memberId++;
+            } else if (cmd.equals("article write")) {
+                System.out.println("== 게시글 생성 ==");
                 int id = lastId + 1;
                 String getTime = Util.getNow();
                 String updateTime = Util.getNow();
@@ -135,6 +174,15 @@ public class Main {
         sc.close();
     }
 
+    private static boolean isJoinableLoginId(String loginId) {
+        for (Member member : members) {
+            if (member.getLoginId().equals(loginId)) {
+                return false;
+            }
+        }
+        return true;
+    }
+
     private static void makeTestDate() {
         System.out.println("== 테스트 데이터 생성 ==");
 
@@ -209,5 +257,61 @@ class Article {
 
     public void setContent(String content) {
         this.content = content;
+    }
+}
+
+class Member {
+    int id;
+    String regDate;
+    String loginId;
+    String loginPw;
+    String name;
+
+    public Member(int id, String regDate, String loginId, String loginPw, String name) {
+        this.id = id;
+        this.regDate = regDate;
+        this.loginId = loginId;
+        this.loginPw = loginPw;
+        this.name = name;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public String getRegDate() {
+        return regDate;
+    }
+
+    public void setRegDate(String regDate) {
+        this.regDate = regDate;
+    }
+
+    public String getLoginId() {
+        return loginId;
+    }
+
+    public void setLoginId(String loginId) {
+        this.loginId = loginId;
+    }
+
+    public String getLoginPw() {
+        return loginPw;
+    }
+
+    public void setLoginPw(String loginPw) {
+        this.loginPw = loginPw;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 }
