@@ -16,6 +16,7 @@ public class Main {
         int memberId = 3;
 
         makeTestDate();
+        makeTestMember();
 
         while (true) {
             System.out.print("명령어 ) ");
@@ -174,6 +175,14 @@ public class Main {
         sc.close();
     }
 
+    private static void makeTestMember() {
+        System.out.println("== 회원 테스트 데이터 생성 ==");
+
+        members.add(new Member(1, Util.getNow(), "test1", "test1", "test1"));
+        members.add(new Member(2, Util.getNow(), "test2", "test2", "test2"));
+        members.add(new Member(3, Util.getNow(), "test12", "test12", "test12"));
+    }
+
     private static boolean isJoinableLoginId(String loginId) {
         for (Member member : members) {
             if (member.getLoginId().equals(loginId)) {
@@ -184,7 +193,7 @@ public class Main {
     }
 
     private static void makeTestDate() {
-        System.out.println("== 테스트 데이터 생성 ==");
+        System.out.println("== 게시글 테스트 데이터 생성 ==");
 
         articles.add(new Article(1, "2025-03-24 12:00:12", "2025-03-24 12:00:12", "asdf", "asdf"));
         articles.add(new Article(2, Util.getNow(), Util.getNow(), "qewr", "qwer"));
