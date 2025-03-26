@@ -1,12 +1,15 @@
 package org.example;
 
+import org.example.dto.Member;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
-public class MemberController {
+public class MemberController extends Controller {
     Scanner sc;
     List<Member> members;
+    String cmd;
 
     int memberId = 3;
 
@@ -15,11 +18,27 @@ public class MemberController {
         members = new ArrayList<>();
     }
 
+    public void doAction(String cmd, String actionCommand) {
+        this.cmd = cmd;
+
+        switch (actionCommand) {
+            case "join":
+                doJoin();
+                break;
+            default:
+                System.out.println("Unknown action");
+                break;
+        }
+    }
+
     public void doJoin() {
         System.out.println("== 회원가입 ==");
+
         int id = memberId + 1;
+
         String regDate = Util.getNow();
         String loginId = null;
+
         while (true) {
             System.out.print("로그인 아이디 : ");
             loginId = sc.nextLine().trim();

@@ -13,6 +13,8 @@ public class App {
         articleController.makeTestDate();
         memberController.makeTestMember();
 
+        Controller controller = null;
+
         while (true) {
             System.out.print("명령어 ) ");
             String cmd = sc.nextLine().trim();
@@ -24,21 +26,26 @@ public class App {
                 System.out.println("명령어가 입력되지 않았습니다.");
             }
 
-            if (cmd.equals("member join")) {
-                memberController.doJoin();
-            } else if (cmd.equals("article write")) {
-                articleController.doWrite();
-            } else if (cmd.startsWith("article list")) {
-                articleController.showList(cmd);
-            } else if (cmd.startsWith("article delete")) {
-                articleController.doDelete(cmd);
-            } else if (cmd.startsWith("article detail")) {
-                articleController.showDetails(cmd);
-            } else if (cmd.startsWith("article modify")) {
-                articleController.doModify(cmd);
-            } else {
-                System.out.println("사용할 수 없는 명령어");
+            String[] cmdBits = cmd.split(" ");
+            String controllerName = cmdBits[0];
+
+            if (cmdBits.length == 1) {
+                System.out.println("명령어 확인이 필요합니다.");
+                continue;
             }
+
+            String actionCommand = cmdBits[1];
+
+            if (controllerName.equals("article")) {
+                controller = articleController;
+            } else if (controllerName.equals("member")) {
+                controller = memberController;
+            } else {
+                System.out.println("지원하지 않는 기능입니다.");
+                continue;
+            }
+
+            controller.doAction(cmd, actionCommand);
         }
 
         sc.close();
