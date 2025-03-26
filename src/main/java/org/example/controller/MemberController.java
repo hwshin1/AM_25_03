@@ -11,7 +11,6 @@ public class MemberController extends Controller {
     Scanner sc;
     List<Member> members;
     String cmd;
-    Member loginedMember = null;
 
     int memberId = 3;
 
@@ -25,12 +24,24 @@ public class MemberController extends Controller {
 
         switch (actionCommand) {
             case "join":
+                if (isLogined()) {
+                    System.out.println("이미 로그인 중입니다.");
+                    return;
+                }
                 doJoin();
                 break;
             case "login":
+                if (isLogined()) {
+                    System.out.println("이미 로그인 중입니다.");
+                    return;
+                }
                 doLogin();
                 break;
             case "logout":
+                if (isLogined() == false) {
+                    System.out.println("이미 로그아웃 중입니다.");
+                    return;
+                }
                 doLogout();
                 break;
             default:
@@ -80,16 +91,7 @@ public class MemberController extends Controller {
         memberId++;
     }
 
-    private boolean isLogined() {
-        return loginedMember != null;
-    }
-
     private void doLogin() {
-        if (isLogined()) {
-            System.out.println("이미 로그인 중입니다.");
-            return;
-        }
-
         System.out.println("== 로그인 ==");
         System.out.print("로그인 아이디 : ");
         String loginId = sc.nextLine().trim();
@@ -113,11 +115,6 @@ public class MemberController extends Controller {
     }
 
     private void doLogout() {
-        if (isLogined() == false) {
-            System.out.println("이미 로그아웃 중입니다.");
-            return;
-        }
-
         loginedMember = null;
         System.out.println("로그아웃 되었습니다.");
     }
