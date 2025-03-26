@@ -35,7 +35,8 @@ public class ArticleController {
     public void showList(String cmd) {
         System.out.println("==게시글 목록==");
         if (articles.size() == 0) {
-            System.out.println("아무것도 없어");
+            System.out.println("등록된 게시글이 없습니다.");
+            return;
         }
 
         String searchKeyword = cmd.substring("article list".length()).trim();
@@ -53,6 +54,7 @@ public class ArticleController {
             }
             if (forPrintArticles.size() == 0) {
                 System.out.println("검색 결과 없음");
+                return;
             }
         }
 
@@ -75,6 +77,7 @@ public class ArticleController {
 
         if (foundArticle == null) {
             System.out.println("해당 게시글이 없습니다.");
+            return;
         }
 
         articles.remove(foundArticle);
@@ -88,6 +91,7 @@ public class ArticleController {
 
         if (foundArticle == null) {
             System.out.println("해당 게시글이 없습니다.");
+            return;
         }
 
         System.out.println("== 게시글 상세보기 ==");
@@ -105,6 +109,7 @@ public class ArticleController {
 
         if (foundArticle == null) {
             System.out.println("해당 게시글이 없습니다.");
+            return;
         }
 
         System.out.println("기존 제목 : " + foundArticle.getTitle());
