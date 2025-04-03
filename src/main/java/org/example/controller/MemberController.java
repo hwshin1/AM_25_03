@@ -24,24 +24,12 @@ public class MemberController extends Controller {
 
         switch (actionCommand) {
             case "join":
-                if (isLogined()) {
-                    System.out.println("이미 로그인 중입니다.");
-                    return;
-                }
                 doJoin();
                 break;
             case "login":
-                if (isLogined()) {
-                    System.out.println("이미 로그인 중입니다.");
-                    return;
-                }
                 doLogin();
                 break;
             case "logout":
-                if (isLogined() == false) {
-                    System.out.println("이미 로그아웃 중입니다.");
-                    return;
-                }
                 doLogout();
                 break;
             default:
@@ -61,7 +49,7 @@ public class MemberController extends Controller {
         while (true) {
             System.out.print("로그인 아이디 : ");
             loginId = sc.nextLine().trim();
-            if (isJoinableLoginId(loginId) == false) {
+            if (!isJoinableLoginId(loginId)) {
                 System.out.println("다른 ID를 입력하세요.");
                 continue;
             }
@@ -74,7 +62,7 @@ public class MemberController extends Controller {
             System.out.print("비밀번호 확인: ");
             String passwordConfirm = sc.nextLine().trim();
 
-            if (password.equals(passwordConfirm) == false) {
+            if (!password.equals(passwordConfirm)) {
                 System.out.println("비밀번호가 틀립니다.");
                 continue;
             }

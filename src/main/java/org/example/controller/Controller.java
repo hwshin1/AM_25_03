@@ -3,9 +3,9 @@ package org.example.controller;
 import org.example.dto.Member;
 
 public class Controller {
-    protected Member loginedMember = null;
+    protected static Member loginedMember = null;
 
-    protected boolean isLogined() {
+    public static boolean isLogined() {
         return loginedMember != null;
     }
 

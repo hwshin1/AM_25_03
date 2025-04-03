@@ -24,30 +24,18 @@ public class ArticleController extends Controller {
 
         switch (actionCommand) {
             case "write" :
-                if (isLogined() == false) {
-                    System.out.println("로그인이 필요합니다.");
-                    return;
-                }
                 doWrite();
                 break;
             case "list" :
                 showList();
                 break;
             case "delete" :
-                if (isLogined() == false) {
-                    System.out.println("로그인이 필요합니다.");
-                    return;
-                }
                 doDelete();
                 break;
             case "detail" :
                 showDetails();
                 break;
             case "modify" :
-                if (isLogined() == false) {
-                    System.out.println("로그인이 필요합니다.");
-                    return;
-                }
                 doModify();
                 break;
             default :
@@ -75,7 +63,7 @@ public class ArticleController extends Controller {
 
     public void showList() {
         System.out.println("==게시글 목록==");
-        if (articles.size() == 0) {
+        if (articles.isEmpty()) {
             System.out.println("등록된 게시글이 없습니다.");
             return;
         }
@@ -93,7 +81,7 @@ public class ArticleController extends Controller {
                     forPrintArticles.add(article);
                 }
             }
-            if (forPrintArticles.size() == 0) {
+            if (forPrintArticles.isEmpty()) {
                 System.out.println("검색 결과 없음");
                 return;
             }
