@@ -54,7 +54,7 @@ public class ArticleController extends Controller {
         System.out.print("내용 : ");
         String content = sc.nextLine().trim();
 
-        Article article = new Article(id, getTime, updateTime, title, content);
+        Article article = new Article(id, getTime, updateTime, loginedMember.getId(), title, content);
         articles.add(article);
 
         System.out.println(id + "번 글이 생성되었습니다.");
@@ -100,12 +100,18 @@ public class ArticleController extends Controller {
     }
 
     public void doDelete() {
+        System.out.println("== 게시글 삭제 ==");
         int id = Integer.parseInt(cmd.split(" ")[2]);
 
         Article foundArticle = getArticle(id);
 
         if (foundArticle == null) {
             System.out.println("해당 게시글이 없습니다.");
+            return;
+        }
+
+        if (foundArticle.getMemberId() != loginedMember.getId()) {
+            System.out.println("권한 없음");
             return;
         }
 
@@ -127,17 +133,24 @@ public class ArticleController extends Controller {
         System.out.println("번호 : " + foundArticle.getId());
         System.out.println("작성날짜 : " + foundArticle.getRegDate());
         System.out.println("수정날짜 : " + foundArticle.getUpdateTime());
+        System.out.println("작성자 : " + foundArticle.getMemberId());
         System.out.println("제목 : " + foundArticle.getTitle());
         System.out.println("내용 : " + foundArticle.getContent());
     }
 
     public void doModify() {
+        System.out.println("== 게시글 수정 ==");
         int id = Integer.parseInt(cmd.split(" ")[2]);
 
         Article foundArticle = getArticle(id);
 
         if (foundArticle == null) {
             System.out.println("해당 게시글이 없습니다.");
+            return;
+        }
+
+        if (foundArticle.getMemberId() != loginedMember.getId()) {
+            System.out.println("권한 없음");
             return;
         }
 
@@ -159,9 +172,9 @@ public class ArticleController extends Controller {
     public void makeTestDate() {
         System.out.println("== 게시글 테스트 데이터 생성 ==");
 
-        articles.add(new Article(1, "2025-03-24 12:00:12", "2025-03-24 12:00:12", "asdf", "asdf"));
-        articles.add(new Article(2, Util.getNow(), Util.getNow(), "qewr", "qwer"));
-        articles.add(new Article(3, Util.getNow(), Util.getNow(), "zxcv", "zxcv"));
+        articles.add(new Article(1, "2025-03-24 12:00:12", "2025-03-24 12:00:12", 1, "asdf", "asdf"));
+        articles.add(new Article(2, Util.getNow(), Util.getNow(), 2, "qewr", "qwer"));
+        articles.add(new Article(3, Util.getNow(), Util.getNow(), 2, "zxcv", "zxcv"));
     }
 
     private Article getArticle(int id) {

@@ -1,14 +1,17 @@
 package org.example.dto;
 
 public class Article extends Dto {
-    String updateTime;
-    String title;
-    String content;
+    private String updateTime;
+    private String title;
+    private String content;
 
-    public Article(int id, String regDate, String updateTime, String title, String content) {
+    private int memberId;
+
+    public Article(int id, String regDate, String updateTime, int memberId, String title, String content) {
         this.id = id;
         this.regDate = regDate;
         this.updateTime = updateTime;
+        this.memberId = memberId;
         this.title = title;
         this.content = content;
     }
@@ -51,5 +54,13 @@ public class Article extends Dto {
 
     public void setContent(String content) {
         this.content = content;
+    }
+
+    public int getMemberId() {
+        return memberId;
+    }
+
+    public void setMemberId(int memberId) {
+        this.memberId = memberId;
     }
 }
