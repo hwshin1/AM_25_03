@@ -1,7 +1,9 @@
 package org.example.controller;
 
+import org.example.ArticleManager.Container;
 import org.example.Util;
 import org.example.dto.Article;
+import org.example.dto.Member;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -14,9 +16,11 @@ public class ArticleController extends Controller {
 
     int lastId = 3;
 
+    List<Member> members = Container.memberDao.members;
+
     public ArticleController(Scanner sc) {
         this.sc = sc;
-        articles = new ArrayList<>();
+        articles = Container.articleDao.articles;
     }
 
     public void doAction(String cmd, String actionCommand) {
@@ -87,13 +91,23 @@ public class ArticleController extends Controller {
             }
         }
 
-        System.out.println("   번호    /     날짜       /   제목     /    내용   ");
+        String writerName = null;
+
+        System.out.println("   번호   /   날짜   /   작성자   /   제목   /   내용   ");
         for (int i = forPrintArticles.size() - 1; i >= 0; i--) {
             Article article = forPrintArticles.get(i);
+
+            for (Member member : members) {
+                if (article.getMemberId() == member.getId()) {
+                    writerName = member.getName();
+                    break;
+                }
+            }
+
             if (Util.getNow().split(" ")[0].equals(article.getRegDate().split(" ")[0])) {
-                System.out.printf("  %d   /    %s        /    %s     /    %s   \n", article.getId(), article.getRegDate().split(" ")[1], article.getTitle(), article.getContent());
+                System.out.printf("   %d   /   %s   /   %s   /   %s   /   %s   \n", article.getId(), article.getRegDate().split(" ")[1], writerName, article.getTitle(), article.getContent());
             } else {
-                System.out.printf("  %d   /    %s        /    %s     /    %s   \n", article.getId(), article.getRegDate().split(" ")[0], article.getTitle(), article.getContent());
+                System.out.printf("   %d   /   %s   /   %s   /   %s   /   %s   \n", article.getId(), article.getRegDate().split(" ")[0], writerName, article.getTitle(), article.getContent());
             }
         }
         System.out.println("=".repeat(30));
@@ -129,11 +143,20 @@ public class ArticleController extends Controller {
             return;
         }
 
+        String writerName = null;
+
+        for (Member member : members) {
+            if (foundArticle.getMemberId() == member.getId()) {
+                writerName = member.getName();
+                break;
+            }
+        }
+
         System.out.println("== 게시글 상세보기 ==");
         System.out.println("번호 : " + foundArticle.getId());
         System.out.println("작성날짜 : " + foundArticle.getRegDate());
         System.out.println("수정날짜 : " + foundArticle.getUpdateTime());
-        System.out.println("작성자 : " + foundArticle.getMemberId());
+        System.out.println("작성자 : " + writerName);
         System.out.println("제목 : " + foundArticle.getTitle());
         System.out.println("내용 : " + foundArticle.getContent());
     }
